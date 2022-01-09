@@ -1,3 +1,4 @@
+from os import name
 from fastapi import FastAPI, Request
 from fastapi.exceptions import HTTPException
 from fastapi.responses import JSONResponse
@@ -8,7 +9,7 @@ from router import get_blogs , post_blogs ,user ,articles,product,file
 from db import models
 from fastapi.middleware.cors import CORSMiddleware
 from auth import authentication
-
+from fastapi.staticfiles import StaticFiles
 app = FastAPI()
 app.include_router(get_blogs.router )
 app.include_router(file.router)
@@ -49,3 +50,7 @@ app.add_middleware(
     allow_methods =["*"] ,
     allow_headers = ['*']
 )
+
+#making files static available 
+app.mount('/file',StaticFiles(directory='file'),name='file')
+
